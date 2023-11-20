@@ -3,12 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlashLightGun : MonoBehaviour{
+public class FlashLightGun : MonoBehaviour {
     public LayerMask flashlightLayer;
 
     public GameObject obj;
 
-    private void FixedUpdate(){
+    public bool isActivated;
+
+    private void FixedUpdate() {
+        if (!isActivated) return;
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, flashlightLayer))
         {
@@ -21,5 +24,17 @@ public class FlashLightGun : MonoBehaviour{
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
             obj.SetActive(false);
         }
+    }
+
+    public void Select()
+    {
+        isActivated = true;
+        obj.SetActive(true);
+    }
+
+    public void SelectExit()
+    {
+        isActivated = false;
+        obj.SetActive(false);
     }
 }
